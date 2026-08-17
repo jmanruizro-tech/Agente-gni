@@ -64,7 +64,7 @@ llm = ChatGoogleGenerativeAI(
     google_api_key=mi_api_key
 )
     # Procesar la respuesta con LangChain
-    prompt_final = prompt.format(pregunta_usuario=prompt_usuario)
+prompt_final = prompt.format(pregunta_usuario=prompt_usuario)
     respuesta = llm.invoke(prompt_final)
 
     # Limpiar y extraer el texto de la respuesta de forma segura
