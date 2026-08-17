@@ -50,7 +50,7 @@ if not mi_api_key:
     st.stop()
 
 llm = ChatGoogleGenerativeAI(
-    model="gemini-1.5-flash",
+    model="gemini-1.5-pro",
     google_api_key=mi_api_key
 )
 # ----------------------------------------
