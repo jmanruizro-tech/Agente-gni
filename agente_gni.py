@@ -57,7 +57,7 @@ if prompt_usuario := st.chat_input("Describe el reto de tu empresa..."):
     prompt = PromptTemplate(input_variables=["pregunta_usuario"], template=plantilla_gni)
 
     # Inicializar el Modelo (Reemplaza con tu clave o variable de entorno)
-    mi_api_key = "TU API KEY"
+    mi_api_key = st.secrets["GOOGLE_API_KEY"]
     llm = ChatGoogleGenerativeAI(
         model="gemini-1.5-flash",
         google_api_key=mi_api_key
