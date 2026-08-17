@@ -56,15 +56,15 @@ if prompt_usuario := st.chat_input("Describe el reto de tu empresa..."):
     """
     prompt = PromptTemplate(input_variables=["pregunta_usuario"], template=plantilla_gni)
 
-# Inicializar el Modelo leyendo de forma segura desde los secretos de Streamlit
-mi_api_key = st.secrets["GOOGLE_API_KEY"]
+    # Inicializar el Modelo con la clave segura de Streamlit
+    mi_api_key = st.secrets["GOOGLE_API_KEY"]
+    llm = ChatGoogleGenerativeAI(
+        model="gemini-1.5-flash",
+        google_api_key=mi_api_key
+    )
 
-llm = ChatGoogleGenerativeAI(
-    model="gemini-1.5-flash",
-    google_api_key=mi_api_key
-)
     # Procesar la respuesta con LangChain
-prompt_final = prompt.format(pregunta_usuario=prompt_usuario)
+    prompt_final = prompt.format(pregunta_usuario=prompt_usuario)
     respuesta = llm.invoke(prompt_final)
 
     # Limpiar y extraer el texto de la respuesta de forma segura
