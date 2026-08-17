@@ -71,16 +71,22 @@ if prompt_usuario := st.chat_input("Describe el reto de tu empresa..."):
     prompt = PromptTemplate(input_variables=["pregunta_usuario"], template=plantilla_gni)
 
     prompt_final = prompt.format(pregunta_usuario=prompt_usuario)
-    respuesta = llm.invoke(prompt_final)
+    
+    # Intentar invocar al modelo y capturar el error exacto de Google si ocurre
+    try:
+        respuesta = llm.invoke(prompt_final)
+        
+        texto_respuesta = ""
+        if isinstance(respuesta.content, list):
+            for bloque in respuesta.content:
+                if isinstance(bloque, dict) and 'text' in bloque:
+                    texto_respuesta += bloque['text']
+        else:
+            texto_respuesta = str(respuesta.content)
 
-    texto_respuesta = ""
-    if isinstance(respuesta.content, list):
-        for bloque in respuesta.content:
-            if isinstance(bloque, dict) and 'text' in bloque:
-                texto_respuesta += bloque['text']
-    else:
-        texto_respuesta = str(respuesta.content)
-
-    st.session_state.messages.append({"role": "assistant", "content": texto_respuesta})
-    with st.chat_message("assistant"):
-        st.markdown(texto_respuesta)
+        st.session_state.messages.append({"role": "assistant", "content": texto_respuesta})
+        with st.chat_message("assistant"):
+            st.markdown(texto_respuesta)
+            
+    except Exception as e:
+        st.error(f"❌ Error detallado de la API de Google: {e}")
